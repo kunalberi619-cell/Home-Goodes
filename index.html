@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Goods — Tech & More</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #080c14;
+      --surface: #0d1420;
+      --card: #111b2e;
+      --accent: #00d4ff;
+      --accent2: #ff6b35;
+      --teal: #1a8c8c;
+      --text: #e8edf5;
+      --muted: #6b7fa3;
+      --border: rgba(0,212,255,0.15);
+      --glow: 0 0 30px rgba(0,212,255,0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Animated grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(8,12,20,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1.4rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-shadow: 0 0 20px rgba(0,212,255,0.5);
+    }
+
+    .logo span { color: var(--accent2); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+
+    nav ul a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .hero-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,212,255,0.12), transparent 70%);
+      top: -100px; left: -200px;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+
+    .hero-orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(255,107,53,0.10), transparent 70%);
+      bottom: -50px; right: -150px;
+      animation: drift 10s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(40px, 30px); }
+    }
+
+    .hero-tag {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 6px 18px;
+      border-radius: 2px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero h1 .line2 {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(0,212,255,0.5);
+    }
+
+    .hero h1 .highlight { color: var(--accent); }
+
+    .hero-sub {
+      margin-top: 24px;
+      max-width: 520px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.7;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── CATEGORY GRID ── */
+    .categories {
+      position: relative;
+      z-index: 1;
+      padding: 80px 48px 120px;
+    }
+
+    .section-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cat-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 40px 28px;
+      text-decoration: none;
+      color: var(--text);
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .cat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.06), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .cat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: var(--glow);
+    }
+
+    .cat-card:hover::before { opacity: 1; }
+
+    .cat-card.active-cat {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .cat-icon {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .cat-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .cat-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .cat-arrow {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: all 0.3s;
+    }
+
+    .cat-card:hover .cat-arrow {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,212,255,0.1);
+    }
+
+    /* Coming soon badge */
+    .badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: rgba(255,107,53,0.15);
+      color: var(--accent2);
+      border: 1px solid rgba(255,107,53,0.3);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    footer .logo-sm {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      nav ul { gap: 16px; }
+      .hero { padding: 100px 20px 60px; }
+      .categories { padding: 60px 20px 80px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Home<span>Goods</span></div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="pages/computer-accessories.html">Accessories</a></li>
+      <li><a href="#">Deals</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+
+    <div class="hero-tag">Est. 2025 — Curated Tech</div>
+    <h1>
+      <span class="highlight">Premium</span>
+      <span class="line2">Home Goods</span>
+    </h1>
+    <p class="hero-sub">Discover hand-picked tech essentials, peripherals, and home gadgets at unbeatable prices — delivered to your door.</p>
+  </section>
+
+  <section class="categories">
+    <div class="section-label">Shop by Category</div>
+
+    <div class="cat-grid">
+
+      <a class="cat-card active-cat" href="pages/computer-accessories.html">
+        <span class="cat-icon">🖱️</span>
+        <div class="cat-name">Computer Accessories</div>
+        <p class="cat-desc">Mice, keyboards, headsets & more gaming gear.</p>
+        <div class="cat-arrow">→</div>
+      </a>
+
+      <a class="cat-card" href="#">
+        <span class="badge">Soon</span>
+        <span class="cat-icon">💻</span>
+        <div class="cat-name">Laptops</div>
+        <p class="cat-desc">Top-rated laptops for work, gaming & creativity.</p>
+        <div class="cat-arrow">→</div>
+      </a>
+
+      <a class="cat-card" href="#">
+        <span class="badge">Soon</span>
+        <span class="cat-icon">📱</span>
+        <div class="cat-name">Smartphones</div>
+        <p class="cat-desc">Latest flagship and budget-friendly phones.</p>
+        <div class="cat-arrow">→</div>
+      </a>
+
+      <a class="cat-card" href="#">
+        <span class="badge">Soon</span>
+        <span class="cat-icon">🎧</span>
+        <div class="cat-name">Audio</div>
+        <p class="cat-desc">Earphones, speakers & studio headphones.</p>
+        <div class="cat-arrow">→</div>
+      </a>
+
+      <a class="cat-card" href="#">
+        <span class="badge">Soon</span>
+        <span class="cat-icon">🖥️</span>
+        <div class="cat-name">Monitors</div>
+        <p class="cat-desc">4K, ultrawide & gaming displays.</p>
+        <div class="cat-arrow">→</div>
+      </a>
+
+      <a class="cat-card" href="#">
+        <span class="badge">Soon</span>
+        <span class="cat-icon">🏠</span>
+        <div class="cat-name">Smart Home</div>
+        <p class="cat-desc">Automation, cameras & IoT devices.</p>
+        <div class="cat-arrow">→</div>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo-sm">HomeGoods</div>
+    <span>© 2025 HomeGoods. All rights reserved.</span>
+    <span>Affiliate disclosure: We earn from qualifying purchases.</span>
+  </footer>
+
+</body>
+</html>
